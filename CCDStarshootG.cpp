@@ -448,19 +448,39 @@ IMPBOOL CCDStarshootG::SetTemperature(
 	double Temp								// Desired setpoint when ControlOn = true and GoToAmbient = false
 )
 {
+	HRESULT hr;
+	short ssgTemp; 
 	if (!ControlOn)
 	{
 		TSetPoint = 20.0;
-		Temperature = 20.0;
+		hr=Starshootg_get_Temperature(m_hcam, &ssgTemp);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+		Temperature = (double)ssgTemp / 10.0;
 	}
 	else if (GoToAmbient)
 	{
-		TSetPoint = 20.0;
+		hr= Starshootg_put_Temperature(m_hcam, 0);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
 	}
 	else
 	{
 		TSetPoint = Temp;
+		ssgTemp = (short)(TSetPoint * 10.0);
+		hr = Starshootg_put_Temperature(m_hcam, ssgTemp);
+		if (FAILED(hr))
+		{
+			return false;
+		}
 	}
+	
+	
 	return true;
 }
 
@@ -472,11 +492,30 @@ int CCDStarshootG::GetTemperature(
 	double& TempAmbient,					// Ambient temperature if available (FLT_MAX if not)
 	unsigned short& Power					// Power level in percent (0-100), return > 100 if not available
 )
-{
-	Temp = 0.0f;
+{   
+	HRESULT hr;
+	short ssgTemp; 
+	int ssgCVoltage;
+	int ssgMaxVoltage;
+	hr = Starshootg_get_Temperature(m_hcam, &ssgTemp);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	Temp = (double)ssgTemp / 10.0;
 	TempAmbient = 0.0f;
 	State = COOL_ON;						// You must set State = COOL_NOCONTROL the camera has no cooler control
-	Power = 101;
+	hr = Starshootg_get_Option(m_hcam, STARSHOOTG_OPTION_TEC_VOLTAGE, &ssgCVoltage);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	hr = Starshootg_get_Option(m_hcam, STARSHOOTG_OPTION_TEC_VOLTAGE_MAX, &ssgMaxVoltage);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	Power = (short)(((double)ssgCVoltage/(double)ssgMaxVoltage)*100.0);
 	return 0;
 }
 
