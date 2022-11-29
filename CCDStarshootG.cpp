@@ -254,19 +254,7 @@ int CCDStarshootG::OpenCamera(
 	//TODO: Display a dialog box to allow the user to set the gain value via a slider
 	if (Param[0])
 	{
-		CreateWindowExA(NULL,
-			"TRACKBAR_CLASS",
-			"Gain Control",
-			WS_POPUP,
-			CW_DEFAULT,
-			CW_DEFAULT,
-			100,
-			500,
-			NULL,
-			NULL,
-			NULL,
-			&CameraGain
-			);
+		
 	}
 	BinningX = 1;
 	BinningY = 1;
