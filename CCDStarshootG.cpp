@@ -199,8 +199,10 @@ int CCDStarshootG::OpenCamera(
 )
 {
 	// If we are re-initializing, make sure old storage deleted
-	CloseCamera();
-
+	if (m_hcam != NULL)
+	{
+		CloseCamera();
+	}
 	// Include any initialization that needs to happen each time the camera is started
 	// from MaxIm CCD's Setup tab
 	m_hcam = Starshootg_Open(NULL);
@@ -246,8 +248,11 @@ int CCDStarshootG::OpenCamera(
 void CCDStarshootG::CloseCamera()
 {
 	// Shut down link to camera, if any
-	Starshootg_Close(m_hcam);
-
+	if (m_hcam != NULL)
+	{
+		Starshootg_Close(m_hcam);
+		m_hcam = NULL;
+	}
 	// Delete image buffer and reset pointer to null 
 
 	
@@ -450,9 +455,20 @@ IMPBOOL CCDStarshootG::SetTemperature(
 {
 	HRESULT hr;
 	short ssgTemp; 
+	int ssgFan;
 	if (!ControlOn)
 	{
 		TSetPoint = 20.0;
+		hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_TEC, 0);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+		hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FAN, 0);
+		if (FAILED(hr))
+		{
+			return false;
+		}
 		hr=Starshootg_get_Temperature(m_hcam, &ssgTemp);
 		if (FAILED(hr))
 		{
@@ -467,19 +483,55 @@ IMPBOOL CCDStarshootG::SetTemperature(
 		{
 			return false;
 		}
+		hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FAN, 0);
+		if (FAILED(hr))
+		{
+			return false;
+		}
 
 	}
 	else
 	{
+		
 		TSetPoint = Temp;
+		hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_TEC, 1);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+		hr = Starshootg_get_Option(m_hcam, STARSHOOTG_OPTION_FAN, &ssgFan);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+		if (ssgFan == 0)
+		{
+			hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FAN, INT_MAX);
+			if (FAILED(hr))
+			{
+				return false;
+			}
+		}
+		if (FAILED(hr))
+		{
+			return false;
+		}
 		ssgTemp = (short)(TSetPoint * 10.0);
 		hr = Starshootg_put_Temperature(m_hcam, ssgTemp);
 		if (FAILED(hr))
 		{
 			return false;
 		}
-	}
+		hr = Starshootg_get_Temperature(m_hcam, &ssgTemp);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+		Temperature = (double)ssgTemp / 10.0;
+		
 	
+		
+	}
 	
 	return true;
 }
