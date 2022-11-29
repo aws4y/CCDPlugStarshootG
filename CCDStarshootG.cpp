@@ -30,6 +30,7 @@
 #include <string.h>
 #include "CCDStarshootG.h"
 #include "starshootg.h"
+#include "resource.h"
 
 HStarshootg			m_hcam;
  int nWidth=0;									// Physical nWidth of CCD, not including overscan
@@ -39,6 +40,13 @@ float pixelXSize = 0.0;							// Pixel physical dimensions
 float pixelYSize = 0.0;
 
 
+BOOL camGain;
+INT_PTR CALLBACK DialogProc(
+	HWND hwndDlg,            // contains the handle of the dialog box
+	UINT uMsg,               // contains message from a control
+	WPARAM wParam,           // message data 
+	LPARAM lParam            // message data
+);
 //////////////////////////////////////////////////////////////////////
 // Non-class DLL entry points
 //////////////////////////////////////////////////////////////////////
@@ -743,4 +751,30 @@ IMPBOOL CCDStarshootG::IsFilterWheelMoving()
 {
 	// We'll just return false; MaxIm CCD will very briefly show Moving
 	return false;
+}
+
+INT_PTR CALLBACK DialogProc(
+	HWND hwndDlg,            // contains the handle of the dialog box
+	UINT uMsg,               // contains message from a control
+	WPARAM wParam,           // message data 
+	LPARAM lParam            // message data
+)
+{
+	switch (uMsg)
+	{
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+			if (!GetDlgItemInt(hwndDlg, IDC_SLIDER1, &camGain, FALSE))
+				camGain = 0;
+		case IDCANCEL:
+				EndDialog(hwndDlg, wParam);
+				return TRUE;
+		}
+		// Place message cases here. 
+;
+	}
+	return FALSE;
 }

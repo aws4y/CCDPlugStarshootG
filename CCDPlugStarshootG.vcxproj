@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="CCDStarshootG.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CCDPlugStarshootG.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
