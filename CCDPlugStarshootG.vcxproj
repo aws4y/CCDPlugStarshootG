@@ -135,10 +135,14 @@
   <ItemGroup>
     <ClInclude Include="CCDStarshootG.h" />
     <ClInclude Include="MaxImCCDPlugIn.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="starshootg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCDStarshootG.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CCDPlugStarshootG.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

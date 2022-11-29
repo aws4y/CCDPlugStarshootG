@@ -27,12 +27,12 @@
 #endif // _MSC_VER >= 1000
 
 // Defined for dummy camera
-enum GuiderErrorMode {
-	GE_OFF,
-	GE_RANDOM,
-	GE_SINUSOIDAL,
-	GE_BOTH,
-};
+//enum GuiderErrorMode {
+//	GE_OFF,
+//	GE_RANDOM,
+//	GE_SINUSOIDAL,
+//	GE_BOTH,
+//};
 
 #include "MaxImCCDPlugIn.h"
 
@@ -55,10 +55,11 @@ protected:
 	int Pixel;						// Pixel counter for simulating readout
 	IMPBOOL LightFrame;				// Indicates if a light frame (for simulated data)
 	IMPBOOL NoiseOn;					// Simulates image noise floor
-	GuiderErrorMode GuiderErrors;	// Simulates guider errors
+	//GuiderErrorMode GuiderErrors;	// Simulates guider errors
 	IMPBOOL FilterDelayOn;				// Simulates delay rotating filter wheel
 	double OffX;					// Used for guider error simulation
 	double OffY;					// Used for guider error simulation
+	int CameraGain;                 //camera exposure gain
 
 public:
 	CCDStarshootG();
@@ -70,6 +71,7 @@ public:
 		IMPBOOL& HasCamera,						// If true, MaxIm CCD will add this to camera and guider lists
 		IMPBOOL& HasFilterWheel,					// If true, MaxIm CCD will add camera's internal filter wheel to list
 		IMPBOOL& HasGuiderRelays					// If true; MaxIm CCD will use camera's autoguider relays
+		//IMPBOOL& HasGainControl
 	);
 
 	// OpenCamera initializes the link to the camera and allocates buffer memory
