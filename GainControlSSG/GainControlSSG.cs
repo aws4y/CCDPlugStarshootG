@@ -2,9 +2,15 @@ namespace GainControlSSG
 {
     public partial class SSGGainControlWindow : Form
     {
+        public Gain gain;
+        public Gain defGain;
+
         public SSGGainControlWindow()
         {
             InitializeComponent();
+            gain= new Gain();
+            defGain= new Gain();
+            
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -29,7 +35,7 @@ namespace GainControlSSG
 
         private void btnSet_Click(object sender, EventArgs e)
         {
-
+            gain.Value = (int)numGain.Value;
         }
 
         private void btnDefault_Click(object sender, EventArgs e)
