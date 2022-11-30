@@ -35,6 +35,8 @@
             this.tbGain = new System.Windows.Forms.TrackBar();
             this.lblHi = new System.Windows.Forms.Label();
             this.numGain = new System.Windows.Forms.NumericUpDown();
+            this.btnSet = new System.Windows.Forms.Button();
+            this.btnDefault = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numGain)).BeginInit();
             this.SuspendLayout();
@@ -95,10 +97,26 @@
             0});
             this.numGain.ValueChanged += new System.EventHandler(this.numGain_ValueChanged);
             // 
+            // btnSet
+            // 
+            resources.ApplyResources(this.btnSet, "btnSet");
+            this.btnSet.Name = "btnSet";
+            this.btnSet.UseVisualStyleBackColor = true;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
+            // 
+            // btnDefault
+            // 
+            resources.ApplyResources(this.btnDefault, "btnDefault");
+            this.btnDefault.Name = "btnDefault";
+            this.btnDefault.UseVisualStyleBackColor = true;
+            this.btnDefault.Click += new System.EventHandler(this.btnDefault_Click);
+            // 
             // SSGGainControlWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnDefault);
+            this.Controls.Add(this.btnSet);
             this.Controls.Add(this.numGain);
             this.Controls.Add(this.lblHi);
             this.Controls.Add(this.tbGain);
@@ -121,5 +139,7 @@
         private TrackBar tbGain;
         private Label lblHi;
         private NumericUpDown numGain;
+        private Button btnSet;
+        private Button btnDefault;
     }
 }

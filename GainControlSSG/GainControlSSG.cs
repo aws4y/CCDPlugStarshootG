@@ -26,5 +26,15 @@ namespace GainControlSSG
         {
             this.Close();
         }
+
+        private void btnSet_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDefault_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

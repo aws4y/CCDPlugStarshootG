@@ -385,6 +385,11 @@ int CCDStarshootG::StartExposure(
 
 	HRESULT hr= Starshootg_put_ExpoTime(m_hcam,Exposure);
 	hr= Starshootg_put_ExpoAGain(m_hcam, CameraGain);
+	hr = Starshootg_PullImageV2(m_hcam, Buffer, 16, NULL);
+	if (FAILED(hr))
+	{
+		return RS_LinkFail;
+	}
 
 	StopTime = clock() + Exposure * CLOCKS_PER_SEC / 100;
 
@@ -479,11 +484,7 @@ int CCDStarshootG::TransferImage(
 	//	MakeStar(Buffer, 256. + OffX + AbsOff, 384. + OffY, 1024.f);
 	//	MakeStar(Buffer, 512. + OffX + AbsOff, 384. + OffY, 2048.f);
 	//}
-	HRESULT hr = Starshootg_PullImageV2(m_hcam, Buffer, 16, NULL);
-	if (FAILED(hr))
-	{
-		return RS_LinkFail;
-	}
+	
 	PercentDone = 100;
 	TransferDone = true;
 	return 0;
@@ -753,28 +754,3 @@ IMPBOOL CCDStarshootG::IsFilterWheelMoving()
 	return false;
 }
 
-INT_PTR CALLBACK DialogProc(
-	HWND hwndDlg,            // contains the handle of the dialog box
-	UINT uMsg,               // contains message from a control
-	WPARAM wParam,           // message data 
-	LPARAM lParam            // message data
-)
-{
-	switch (uMsg)
-	{
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
-		case IDOK:
-			if (!GetDlgItemInt(hwndDlg, IDC_SLIDER1, &camGain, FALSE))
-				camGain = 0;
-		case IDCANCEL:
-				EndDialog(hwndDlg, wParam);
-				return TRUE;
-		}
-		// Place message cases here. 
-;
-	}
-	return FALSE;
-}
