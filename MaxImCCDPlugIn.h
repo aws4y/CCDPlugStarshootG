@@ -211,7 +211,7 @@ public:
 		) = 0;
 
 	// GetImageBuffer returns a pointer to the image buffer allocated by OpenCamera and filled by TransferImage
-	virtual unsigned short * GetImageBuffer() = 0;
+	virtual unsigned int * GetImageBuffer() = 0;
 
 	// StartExposures starts a CCD exposure
 	virtual int StartExposure ( 

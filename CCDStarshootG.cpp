@@ -40,6 +40,7 @@ float pixelXSize = 0.0;							// Pixel physical dimensions
 float pixelYSize = 0.0;
 
 
+int GetGain();
 BOOL camGain;
 INT_PTR CALLBACK DialogProc(
 	HWND hwndDlg,            // contains the handle of the dialog box
@@ -236,11 +237,11 @@ int CCDStarshootG::OpenCamera(
 	// Allocate image buffer used during download
 	// Important:  if this function fails, you must deallocate this memory (and any other allocated variables)
 
-	Buffer = new unsigned short [nWidth * nHeight];
+	Buffer = new unsigned int [nWidth * nHeight];
 	if (Buffer == NULL) return RS_OutOfMemory;
 
 	//Set Max bit depth for MonoImaging of StarshootG 
-	nBitDepth = Starshootg_get_MaxBitDepth(m_hcam);
+	/*nBitDepth = Starshootg_get_MaxBitDepth(m_hcam);
 	
 
 	if ((8 == nBitDepth))
@@ -253,7 +254,7 @@ int CCDStarshootG::OpenCamera(
 	
 		Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RGB, 4);
 		Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
-	}
+	}*/
 
 	// Check whether we want to add noise to the image
 	//NoiseOn = Param[0];
@@ -262,7 +263,7 @@ int CCDStarshootG::OpenCamera(
 	//TODO: Display a dialog box to allow the user to set the gain value via a slider
 	if (Param[0])
 	{
-		
+		system("dotnet run %useprofile%\\bin\\GainControlSSG.dll");
 	}
 	BinningX = 1;
 	BinningY = 1;
@@ -276,6 +277,8 @@ int CCDStarshootG::OpenCamera(
 	Shutter = false;
 	Exposing = false;
 	Reading = false;
+	//Trigger for exposure
+
 	return 0;
 }
 
@@ -350,7 +353,7 @@ IMPBOOL CCDStarshootG::GetPixelAspect(
 
 //////////////////////////////////////////////////////////////////////
 // GetImageBuffer returns a pointer to the image buffer allocated by OpenCamera and filled by TransferImage
-unsigned short* CCDStarshootG::GetImageBuffer()
+unsigned int* CCDStarshootG::GetImageBuffer()
 {
 	return Buffer;
 }
@@ -382,15 +385,14 @@ int CCDStarshootG::StartExposure(
 	Exposing = true;
 	Reading = false;
 	Pixel = 0;
-
+	CameraGain = GetGain();
 	HRESULT hr= Starshootg_put_ExpoTime(m_hcam,Exposure);
-	hr= Starshootg_put_ExpoAGain(m_hcam, CameraGain);
-	hr = Starshootg_PullImageV2(m_hcam, Buffer, 16, NULL);
-	if (FAILED(hr))
-	{
-		return RS_LinkFail;
-	}
-
+	hr= Starshootg_put_ExpoAGain(m_hcam, CameraGain);\
+    
+	hr= Starshootg_StartPullModeWithCallback(m_hcam, NULL,NULL);
+	hr = Starshootg_Trigger(m_hcam, 1);
+	
+	
 	StopTime = clock() + Exposure * CLOCKS_PER_SEC / 100;
 
 	return 0;
@@ -402,6 +404,8 @@ int CCDStarshootG::StartExposure(
 void CCDStarshootG::AbortExposure()
 {
 	StopTime = 0;
+	HRESULT hr = Starshootg_Trigger(m_hcam, 0);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -411,6 +415,8 @@ int CCDStarshootG::TransferImage(
 	int& PercentDone						// If returns periodically during download, percentage complete
 )
 {
+	unsigned int pWidth;
+	unsigned int pHeight;
 	//int Size = SubframeXSize * SubframeYSize;
 
 	// Simulate readout progress
@@ -484,7 +490,7 @@ int CCDStarshootG::TransferImage(
 	//	MakeStar(Buffer, 256. + OffX + AbsOff, 384. + OffY, 1024.f);
 	//	MakeStar(Buffer, 512. + OffX + AbsOff, 384. + OffY, 2048.f);
 	//}
-	
+	HRESULT hr = Starshootg_PullImageV2(m_hcam, Buffer, 24, NULL);
 	PercentDone = 100;
 	TransferDone = true;
 	return 0;
@@ -754,3 +760,13 @@ IMPBOOL CCDStarshootG::IsFilterWheelMoving()
 	return false;
 }
 
+int GetGain()
+{
+	FILE* inFile;
+	char fileName[100];
+	int min,max,gain;
+	inFile = fopen("%userprofile%\\bin\\StarshootG\\Gain.json", "r");
+	fscanf(inFile, "{\"max_gain\":%i,\"min_gain\":%i,\"gain\":%i}", &max, &min, &gain);
+	return gain; 
+
+}

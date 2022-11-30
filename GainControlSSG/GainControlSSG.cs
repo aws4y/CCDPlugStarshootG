@@ -14,7 +14,8 @@ namespace GainControlSSG
 
             defGain = new Gain("Default.json");
 
-            fNameGainSetting = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\MaxIm DL 6\\Settings\\CCDPlugStarshootG\\Gain.json";
+            fNameGainSetting = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\bin\\StarshootG\\Gain.json";
+            
             gain = new Gain(fNameGainSetting);
             numGain.Value=gain.Value;
             tbGain.Value= gain.Value;
