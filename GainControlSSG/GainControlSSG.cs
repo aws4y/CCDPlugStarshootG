@@ -23,7 +23,8 @@ namespace GainControlSSG
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            gain.WriteGainSetting(fNameGainSetting);
+            this.Close();
         }
 
         private void tbGain_Scroll(object sender, EventArgs e)
