@@ -11,14 +11,13 @@ namespace GainControlSSG
         public SSGGainControlWindow()
         {
             InitializeComponent();
-            gain= new Gain();
-            defGain= new Gain();
-            
-            if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\MaxIm DL 6\\Settings\\CCDPlugStarshootG\\"))
-            {
-                    fNameGainSetting = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\MaxIm DL 6\\Settings\\CCDPlugStarshootG\\Gain.json";
-            }
-            
+
+            defGain = new Gain("Default.json");
+
+            fNameGainSetting = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\MaxIm DL 6\\Settings\\CCDPlugStarshootG\\Gain.json";
+            gain = new Gain(fNameGainSetting);
+            numGain.Value=gain.Value;
+            tbGain.Value= gain.Value;
 
         }
 
@@ -52,7 +51,7 @@ namespace GainControlSSG
 
         private void btnDefault_Click(object sender, EventArgs e)
         {
-
+            defGain.WriteGainSetting(fNameGainSetting);
         }
     }
 }
