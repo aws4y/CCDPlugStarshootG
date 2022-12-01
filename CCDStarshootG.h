@@ -59,7 +59,7 @@ protected:
 	IMPBOOL FilterDelayOn;				// Simulates delay rotating filter wheel
 	double OffX;					// Used for guider error simulation
 	double OffY;					// Used for guider error simulation
-	int CameraGain;                 //camera exposure gain
+	int BlackLevel;                 //camera exposure gain
 
 public:
 	CCDStarshootG();

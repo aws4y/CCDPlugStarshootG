@@ -1,7 +1,8 @@
 #installer
 
 OutFile "CCDPlugStarshootG.exe"
-  
+
+RequestExecutionLevel admin
 
 InstallDir "$PROGRAMFILES32\Diffraction Limited\MaxIm DL 6"
 Section "Installer" section_index_output
@@ -21,8 +22,11 @@ FILE GainControlSSG.dll
 FILE GainControlSSG.exe
 FILE Newtonsoft.Json.dll
 FILE Default.json
+FILE GainControlSSG.runtimeconfig.json
+FILE Gain.json
 
-File Gain.json
+ReadRegStr $1 HKCU "Environment" "PATH"
+WriteRegStr HKCU "Environment" "PATH" "$1;$Profile\bin\StarshootG"
 
 WriteUninstaller "$PROFILE\bin\StarshootG\UinstallCCDPlugStarshootG.exe"
 SectionEnd

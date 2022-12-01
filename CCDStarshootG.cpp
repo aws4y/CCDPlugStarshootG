@@ -28,6 +28,7 @@
 #include <float.h>
 #include <time.h>
 #include <string.h>
+
 #include "CCDStarshootG.h"
 #include "starshootg.h"
 #include "resource.h"
@@ -214,6 +215,9 @@ int CCDStarshootG::OpenCamera(
 )
 {
 	int			nBitDepth;
+	int			nSpeed;
+	int         nSkip;
+	int			nBlackLevel;
 
 	// If we are re-initializing, make sure old storage deleted
 	if (m_hcam != NULL)
@@ -233,8 +237,26 @@ int CCDStarshootG::OpenCamera(
 		return RS_DriverError;
 
 	hr = Starshootg_get_PixelSize(m_hcam, 0, &pixelXSize, &pixelYSize);
-
+	hr = Starshootg_get_Option(m_hcam, STARSHOOTG_OPTION_BLACKLEVEL, &nBlackLevel);
+	if (hr != 0x80004001)
+	{
+		BlackLevel = nBlackLevel + 1;
+	}
+	else
+	{
+		BlackLevel = 0;
+	}
+	hr = Starshootg_put_eSize(m_hcam, 0);
+	hr = Starshootg_put_HZ(m_hcam, 2);
+	hr = Starshootg_put_Speed(m_hcam, 0);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RAW, 1);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, 1);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, 1);
+	hr = Starshootg_put_Mode(m_hcam, 0);
+	hr = Starshootg_put_LevelRange(m_hcam, new unsigned short[4], new unsigned short[4] {255, 255, 255, 255});
 	// Allocate image buffer used during download
+	// 
 	// Important:  if this function fails, you must deallocate this memory (and any other allocated variables)
 
 	Buffer = new unsigned int [nWidth * nHeight];
@@ -263,7 +285,7 @@ int CCDStarshootG::OpenCamera(
 	//TODO: Display a dialog box to allow the user to set the gain value via a slider
 	if (Param[0])
 	{
-		system("dotnet run %useprofile%\\bin\\GainControlSSG.dll");
+		system("GainControlSSG.exe");
 	}
 	BinningX = 1;
 	BinningY = 1;
@@ -385,10 +407,12 @@ int CCDStarshootG::StartExposure(
 	Exposing = true;
 	Reading = false;
 	Pixel = 0;
-	CameraGain = GetGain();
+	//CameraGain = GetGain();
 	HRESULT hr= Starshootg_put_ExpoTime(m_hcam,Exposure);
-	hr= Starshootg_put_ExpoAGain(m_hcam, CameraGain);\
-    
+	hr= Starshootg_put_ExpoAGain(m_hcam,GetGain());
+	//hr = Starshootg_Trigger(m_hcam, 0);
+	//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
+	
 	hr= Starshootg_StartPullModeWithCallback(m_hcam, NULL,NULL);
 	hr = Starshootg_Trigger(m_hcam, 1);
 	
@@ -491,6 +515,19 @@ int CCDStarshootG::TransferImage(
 	//	MakeStar(Buffer, 512. + OffX + AbsOff, 384. + OffY, 2048.f);
 	//}
 	HRESULT hr = Starshootg_PullImageV2(m_hcam, Buffer, 24, NULL);
+	//Manually remove blacklevel from buffer
+	/*if (BlackLevel > 0)
+	{
+		int i;
+		for (i = 0; i < nWidth * nHeight; i++)
+		{
+			Buffer[i] = Buffer[i] - BlackLevel;
+			if (Buffer[i] < 0)
+			{
+				Buffer[i] = 0;
+			}
+		}
+	}*/
 	PercentDone = 100;
 	TransferDone = true;
 	return 0;
@@ -598,6 +635,7 @@ int CCDStarshootG::GetTemperature(
 {   
 	HRESULT hr;
 	short ssgTemp; 
+	int bTec;
 	int ssgCVoltage;
 	int ssgMaxVoltage;
 	hr = Starshootg_get_Temperature(m_hcam, &ssgTemp);
@@ -619,6 +657,11 @@ int CCDStarshootG::GetTemperature(
 		return false;
 	}
 	Power = (short)(((double)ssgCVoltage/(double)ssgMaxVoltage)*100.0);
+	hr = Starshootg_get_Option(m_hcam, STARSHOOTG_OPTION_TEC, &bTec);
+	if (!bTec)
+	{
+		State = COOL_OFF;
+	}
 	return 0;
 }
 
@@ -658,7 +701,7 @@ void CCDStarshootG::GetCameraState(
 	if (Exposing)
 	{
 		State = CCD_EXPOSING;
-
+		HRESULT hr = Starshootg_Trigger(m_hcam, 1);
 		if (clock() > StopTime)
 		{
 			Shutter = false;
@@ -666,6 +709,8 @@ void CCDStarshootG::GetCameraState(
 			Exposing = false;
 			Reading = true;
 			State = CCD_READING;
+			hr=Starshootg_Trigger(m_hcam, 0);
+			hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
 			StopTime += CLOCKS_PER_SEC * 2;
 			return;
 		}
@@ -764,9 +809,11 @@ int GetGain()
 {
 	FILE* inFile;
 	char fileName[100];
-	int min,max,gain;
-	inFile = fopen("%userprofile%\\bin\\StarshootG\\Gain.json", "r");
-	fscanf(inFile, "{\"max_gain\":%i,\"min_gain\":%i,\"gain\":%i}", &max, &min, &gain);
+	int min,max,gain,flag;
+	strcpy(fileName, getenv("USERPROFILE"));
+	strcat(fileName, "\\bin\\StarshootG\\Gain.json");
+	inFile = fopen(fileName, "r");
+	flag=fscanf(inFile, "{\"max_gain\":%i,\"min_gain\":%i,\"gain\":%i}", &max, &min, &gain);
 	return gain; 
 
 }

@@ -61,10 +61,10 @@ namespace GainControlSSG
 
             if(!string.IsNullOrEmpty(gainJson)) 
             { 
-                if(File.Exists(fname))
-                { 
-                    File.Delete(fname); 
-                }
+                //if(File.Exists(fname))
+                //{ 
+                //    File.Delete(fname); 
+                //}
 
                 File.WriteAllText(fname, gainJson);
 
