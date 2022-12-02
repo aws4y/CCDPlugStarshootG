@@ -40,6 +40,7 @@ HStarshootg			m_hcam;
 float pixelXSize = 0.0;							// Pixel physical dimensions
 float pixelYSize = 0.0;
 
+unsigned char* byBuff;
 
 int GetGain();
 BOOL camGain;
@@ -218,7 +219,7 @@ int CCDStarshootG::OpenCamera(
 	int			nSpeed;
 	int         nSkip;
 	int			nBlackLevel;
-
+	int			nheatmax;
 	// If we are re-initializing, make sure old storage deleted
 	if (m_hcam != NULL)
 	{
@@ -231,8 +232,11 @@ int CCDStarshootG::OpenCamera(
 	{
 		return RS_LinkFail;
 	}
-
-	HRESULT hr = Starshootg_get_Size(m_hcam, &nWidth, &nHeight);
+	HRESULT hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_TRIGGER, 1);
+	hr = Starshootg_put_AutoExpoEnable(m_hcam, 0);
+	hr = Starshootg_put_VignetEnable(m_hcam, 0);
+	hr = Starshootg_put_Negative(m_hcam, 0);
+    hr = Starshootg_get_Size(m_hcam, &nWidth, &nHeight);
 	if (FAILED(hr))
 		return RS_DriverError;
 
@@ -246,6 +250,7 @@ int CCDStarshootG::OpenCamera(
 	{
 		BlackLevel = 0;
 	}
+
 	hr = Starshootg_put_eSize(m_hcam, 0);
 	hr = Starshootg_put_HZ(m_hcam, 2);
 	hr = Starshootg_put_Speed(m_hcam, 0);
@@ -253,15 +258,20 @@ int CCDStarshootG::OpenCamera(
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, 1);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, 1);
-	hr = Starshootg_put_Mode(m_hcam, 0);
+	hr = Starshootg_put_Mode(m_hcam, 1);
 	hr = Starshootg_put_LevelRange(m_hcam, new unsigned short[4], new unsigned short[4] {255, 255, 255, 255});
 	// Allocate image buffer used during download
 	// 
 	// Important:  if this function fails, you must deallocate this memory (and any other allocated variables)
 
-	Buffer = new unsigned int [nWidth * nHeight];
+	Buffer = new unsigned short [nWidth * nHeight];
 	if (Buffer == NULL) return RS_OutOfMemory;
 
+	byBuff = new unsigned char[2 * nWidth * nHeight];
+	if (byBuff == NULL)
+	{
+		return RS_OutOfMemory;
+	}
 	//Set Max bit depth for MonoImaging of StarshootG 
 	/*nBitDepth = Starshootg_get_MaxBitDepth(m_hcam);
 	
@@ -375,8 +385,12 @@ IMPBOOL CCDStarshootG::GetPixelAspect(
 
 //////////////////////////////////////////////////////////////////////
 // GetImageBuffer returns a pointer to the image buffer allocated by OpenCamera and filled by TransferImage
-unsigned int* CCDStarshootG::GetImageBuffer()
+unsigned short* CCDStarshootG::GetImageBuffer()
 {
+	for (int i = 0; i < nWidth * nHeight; i++ )
+	{
+		Buffer[i] = byBuff[2 * i] << 8 | byBuff[2 * i + 1];
+	}
 	return Buffer;
 }
 
@@ -408,13 +422,14 @@ int CCDStarshootG::StartExposure(
 	Reading = false;
 	Pixel = 0;
 	//CameraGain = GetGain();
-	HRESULT hr= Starshootg_put_ExpoTime(m_hcam,Exposure);
+	HRESULT hr= Starshootg_put_ExpoTime(m_hcam,Exposure*10);
 	hr= Starshootg_put_ExpoAGain(m_hcam,GetGain());
 	//hr = Starshootg_Trigger(m_hcam, 0);
 	//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
 	
-	hr= Starshootg_StartPullModeWithCallback(m_hcam, NULL,NULL);
 	hr = Starshootg_Trigger(m_hcam, 1);
+	hr= Starshootg_StartPullModeWithCallback(m_hcam, NULL,NULL);
+	
 	
 	
 	StopTime = clock() + Exposure * CLOCKS_PER_SEC / 100;
@@ -514,7 +529,7 @@ int CCDStarshootG::TransferImage(
 	//	MakeStar(Buffer, 256. + OffX + AbsOff, 384. + OffY, 1024.f);
 	//	MakeStar(Buffer, 512. + OffX + AbsOff, 384. + OffY, 2048.f);
 	//}
-	HRESULT hr = Starshootg_PullImageV2(m_hcam, Buffer, 24, NULL);
+	//RESULT hr = Starshootg_PullImageV2(m_hcam, Buffer, 16, NULL);
 	//Manually remove blacklevel from buffer
 	/*if (BlackLevel > 0)
 	{
@@ -528,6 +543,7 @@ int CCDStarshootG::TransferImage(
 			}
 		}
 	}*/
+	
 	PercentDone = 100;
 	TransferDone = true;
 	return 0;
@@ -701,16 +717,19 @@ void CCDStarshootG::GetCameraState(
 	if (Exposing)
 	{
 		State = CCD_EXPOSING;
-		HRESULT hr = Starshootg_Trigger(m_hcam, 1);
-		if (clock() > StopTime)
+		//HRESULT hr = Starshootg_Trigger(m_hcam, 1);
+	
+		
+		if(clock()>StopTime)
 		{
 			Shutter = false;
 			ShutterOpen = Shutter;
 			Exposing = false;
 			Reading = true;
 			State = CCD_READING;
-			hr=Starshootg_Trigger(m_hcam, 0);
-			hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
+			HRESULT hr=Starshootg_Trigger(m_hcam, 0);
+			//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
+		    hr = Starshootg_PullImageV2(m_hcam, byBuff,8, NULL);
 			StopTime += CLOCKS_PER_SEC * 2;
 			return;
 		}
@@ -718,7 +737,7 @@ void CCDStarshootG::GetCameraState(
 	else if (Reading)
 	{
 		State = CCD_READING;
-
+		
 		if (clock() > StopTime)
 		{
 			Reading = false;

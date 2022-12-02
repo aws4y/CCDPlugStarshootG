@@ -42,7 +42,7 @@ protected:
 	int BinningX;					// Binning factor
 	int BinningY;
 	clock_t StopTime;				// CPU clock time for simulated end of exposure
-	unsigned int* Buffer;			// Buffer for readout
+	unsigned short* Buffer;			// Buffer for readout
 	int SubframeXSize;				// Subframe dimensions
 	int SubframeYSize;
 	int SubframeXStart;
@@ -106,7 +106,7 @@ public:
 	);
 
 	// GetImageBuffer returns a pointer to the image buffer allocated by OpenCamera and filled by TransferImage
-	unsigned int* GetImageBuffer();
+	unsigned short* GetImageBuffer();
 
 	// StartExposures starts a CCD exposure
 	int StartExposure(
