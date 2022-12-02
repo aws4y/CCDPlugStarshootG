@@ -28,7 +28,7 @@
 #include <float.h>
 #include <time.h>
 #include <string.h>
-
+#include <process.h>
 #include "CCDStarshootG.h"
 #include "starshootg.h"
 #include "resource.h"
@@ -253,7 +253,7 @@ int CCDStarshootG::OpenCamera(
 
 	hr = Starshootg_put_eSize(m_hcam, 0);
 	hr = Starshootg_put_HZ(m_hcam, 2);
-	hr = Starshootg_put_Speed(m_hcam, 0);
+	hr = Starshootg_put_Speed(m_hcam, 7);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RAW, 1);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, 1);
@@ -294,8 +294,13 @@ int CCDStarshootG::OpenCamera(
 	
 	//TODO: Display a dialog box to allow the user to set the gain value via a slider
 	if (Param[0])
-	{
-		system("GainControlSSG.exe");
+	{	
+		char fileName[100];
+		char* args = new char[1];
+		int min, max, gain, flag;
+		strcpy(fileName, getenv("USERPROFILE"));
+		strcat(fileName, "\\bin\\StarshootG\\GainControlSSG.exe");
+		_spawnl(P_NOWAIT, fileName,args,NULL);
 	}
 	BinningX = 1;
 	BinningY = 1;
@@ -389,7 +394,7 @@ unsigned short* CCDStarshootG::GetImageBuffer()
 {
 	for (int i = 0; i < nWidth * nHeight; i++ )
 	{
-		Buffer[i] = byBuff[2 * i] << 8 | byBuff[2 * i + 1];
+		Buffer[i] = byBuff[2 * i+1] << 8 | byBuff[2 * i];
 	}
 	return Buffer;
 }
@@ -426,7 +431,7 @@ int CCDStarshootG::StartExposure(
 	hr= Starshootg_put_ExpoAGain(m_hcam,GetGain());
 	//hr = Starshootg_Trigger(m_hcam, 0);
 	//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
-	
+    hr = Starshootg_Trigger(m_hcam, 0);
 	hr = Starshootg_Trigger(m_hcam, 1);
 	hr= Starshootg_StartPullModeWithCallback(m_hcam, NULL,NULL);
 	
