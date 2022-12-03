@@ -260,6 +260,7 @@ int CCDStarshootG::OpenCamera(
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, 1);
 	hr = Starshootg_put_Mode(m_hcam, 1);
 	hr = Starshootg_put_LevelRange(m_hcam, new unsigned short[4], new unsigned short[4] {255, 255, 255, 255});
+	hr = Starshootg_StartPullModeWithCallback(m_hcam, NULL, NULL);
 	// Allocate image buffer used during download
 	// 
 	// Important:  if this function fails, you must deallocate this memory (and any other allocated variables)
@@ -427,13 +428,16 @@ int CCDStarshootG::StartExposure(
 	Reading = false;
 	Pixel = 0;
 	//CameraGain = GetGain();
+	//HRESULT hr = Starshootg_Trigger(m_hcam, 1);
+//	hr = Starshootg_Trigger(m_hcam, 0);
+	//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
 	HRESULT hr= Starshootg_put_ExpoTime(m_hcam,Exposure*10);
 	hr= Starshootg_put_ExpoAGain(m_hcam,GetGain());
 	//hr = Starshootg_Trigger(m_hcam, 0);
 	//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
-    hr = Starshootg_Trigger(m_hcam, 0);
+   
 	hr = Starshootg_Trigger(m_hcam, 1);
-	hr= Starshootg_StartPullModeWithCallback(m_hcam, NULL,NULL);
+	
 	
 	
 	
