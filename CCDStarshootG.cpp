@@ -166,45 +166,7 @@ void CCDStarshootG::GetParameters(
 	Contents.Parameters[0].Option[0].Value = true;
 	Contents.Parameters[0].Option[1].Value = false;
 
-	// Noise simulation control
-	/*strcpy(Contents.Parameters[0].ParameterName, "Noise");
-	Contents.Parameters[0].NumOptions = 2;
-
-	strcpy(Contents.Parameters[0].Option[0].Display, "Off");
-	Contents.Parameters[0].Option[0].Value = false;
-
-	strcpy(Contents.Parameters[0].Option[1].Display, "Simulate");
-	Contents.Parameters[0].Option[1].Value = false;*/
-
-	// Guider simulation control
-	/*strcpy(Contents.Parameters[1].ParameterName, "Guide Errors");
-	Contents.Parameters[1].NumOptions = 4;
-
-	strcpy(Contents.Parameters[1].Option[0].Display, "Off");
-	Contents.Parameters[1].Option[0].Value = GE_OFF;
-
-	strcpy(Contents.Parameters[1].Option[1].Display, "Sinusoidal");
-	Contents.Parameters[1].Option[1].Value = GE_SINUSOIDAL;
-
-	strcpy(Contents.Parameters[1].Option[2].Display, "Random");
-	Contents.Parameters[1].Option[2].Value = GE_RANDOM;
-
-	strcpy(Contents.Parameters[1].Option[3].Display, "Both");
-	Contents.Parameters[1].Option[3].Value = GE_BOTH;*/
-
-	// Set up filter wheel
-	//Contents.NumFilters = 0;
-	//Contents.NumFilterParameters = 0;
-
-	//// Filter rotation delay simulation control
-	//strcpy(Contents.FilterParameters[0].ParameterName, "Delay");
-	//Contents.FilterParameters[0].NumOptions = 2;
-
-	//Contents.FilterParameters[0].NumOptions = 2;
-	//strcpy(Contents.FilterParameters[0].Option[0].Display, "On");
-	//Contents.FilterParameters[0].Option[0].Value = 1;
-	//strcpy(Contents.FilterParameters[0].Option[1].Display, "Off");
-	//Contents.FilterParameters[0].Option[1].Value = 0;
+	
 }
 
 
@@ -273,27 +235,9 @@ int CCDStarshootG::OpenCamera(
 	{
 		return RS_OutOfMemory;
 	}
-	//Set Max bit depth for MonoImaging of StarshootG 
-	/*nBitDepth = Starshootg_get_MaxBitDepth(m_hcam);
-	
 
-	if ((8 == nBitDepth))
-	{
-		Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RGB, 3);
-		Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 0);
-	}
-	else
-	{
 	
-		Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RGB, 4);
-		Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
-	}*/
-
-	// Check whether we want to add noise to the image
-	//NoiseOn = Param[0];
-	//GuiderErrors = GuiderErrorMode(Param[1]);
 	
-	//TODO: Display a dialog box to allow the user to set the gain value via a slider
 	if (Param[0])
 	{	
 		char fileName[100];
@@ -315,7 +259,7 @@ int CCDStarshootG::OpenCamera(
 	Shutter = false;
 	Exposing = false;
 	Reading = false;
-	//Trigger for exposure
+	
 
 	return 0;
 }
@@ -427,15 +371,10 @@ int CCDStarshootG::StartExposure(
 	Exposing = true;
 	Reading = false;
 	Pixel = 0;
-	//CameraGain = GetGain();
-	//HRESULT hr = Starshootg_Trigger(m_hcam, 1);
-//	hr = Starshootg_Trigger(m_hcam, 0);
-	//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
+
 	HRESULT hr= Starshootg_put_ExpoTime(m_hcam,Exposure*10);
 	hr= Starshootg_put_ExpoAGain(m_hcam,GetGain());
-	//hr = Starshootg_Trigger(m_hcam, 0);
-	//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
-   
+	
 	hr = Starshootg_Trigger(m_hcam, 1);
 	
 	
@@ -465,94 +404,13 @@ int CCDStarshootG::TransferImage(
 {
 	unsigned int pWidth;
 	unsigned int pHeight;
-	//int Size = SubframeXSize * SubframeYSize;
+	
 
-	// Simulate readout progress
-	// Write some dummy data into the array (consumes time and simulates date)
-	/*for (int I = 0; I < Size / 20; I++)
-	{
-		if (Pixel >= Size) break;
-		if (NoiseOn)
-		{
-			Buffer[Pixel++] = rand() >> 10;
-		}
-		else
-		{
-			Buffer[Pixel++] = 0;
-		}
-	}*/
 
 	// Note: recommend exiting periodically, not on every line, to avoid slowing down the readout
 	// Returning with percentage is recommended, but optional (some cameras don't like random delays during readout)
 	TransferDone = false;
-	//PercentDone = Pixel * 100 / Size;
-	//if (PercentDone <= 95) return 0;
 
-	// Make sure last bit of array filled
-	/*while (Pixel < Size)
-	{
-		if (NoiseOn)
-		{
-			Buffer[Pixel++] = rand() >> 10;
-		}
-		else
-		{
-			Buffer[Pixel++] = 0;
-		}
-	}
-
-	if (LightFrame)
-	{*/
-	//	// Simulate a sinusoidal guider error of +/-three pixels with a time constant of four minutes 
-	//	// (typical worm cycle) plus small random variations of < 1/4 pixel
-	//	time_t Tic = clock() % (CLOCKS_PER_SEC * 240);  // Modulo 240 seconds
-	//	double T = double(Tic) / CLOCKS_PER_SEC;
-	//	double Delta = 3. * sin(2 * 3.141592654f * T / 240.);
-	//	double AbsOff = 0.;
-
-	//	double RandX = double(rand() - RAND_MAX / 4) / RAND_MAX;
-	//	double RandY = double(rand() - RAND_MAX / 4) / RAND_MAX;
-
-	//	/*switch (GuiderErrors)
-	//	{
-	//	case GE_OFF:
-	//		break;
-	//	case GE_RANDOM:
-	//		OffX += RandX;
-	//		OffY += RandY;
-	//		break;
-	//	case GE_SINUSOIDAL:
-	//		AbsOff = Delta;
-	//		break;
-	//	case GE_BOTH:
-	//		OffX += RandX;
-	//		OffY += RandY;
-	//		AbsOff = Delta;
-	//		break;
-	//	}*/
-
-	//	// Make artificial stars
-	//	MakeStar(Buffer, 256. + OffX + AbsOff, 128. + OffY, 32.f);
-	//	MakeStar(Buffer, 512. + OffX + AbsOff, 128. + OffY, 64.f);
-	//	MakeStar(Buffer, 384. + OffX + AbsOff, 256. + OffY, 512.f);
-	//	MakeStar(Buffer, 256. + OffX + AbsOff, 384. + OffY, 1024.f);
-	//	MakeStar(Buffer, 512. + OffX + AbsOff, 384. + OffY, 2048.f);
-	//}
-	//RESULT hr = Starshootg_PullImageV2(m_hcam, Buffer, 16, NULL);
-	//Manually remove blacklevel from buffer
-	/*if (BlackLevel > 0)
-	{
-		int i;
-		for (i = 0; i < nWidth * nHeight; i++)
-		{
-			Buffer[i] = Buffer[i] - BlackLevel;
-			if (Buffer[i] < 0)
-			{
-				Buffer[i] = 0;
-			}
-		}
-	}*/
-	
 	PercentDone = 100;
 	TransferDone = true;
 	return 0;
