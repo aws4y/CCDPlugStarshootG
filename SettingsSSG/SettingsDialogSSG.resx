@@ -57,15 +57,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="clbGC.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="clbGC.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="clbGC.Items" xml:space="preserve">
+    <value>LGC</value>
+  </data>
+  <data name="clbGC.Items1" xml:space="preserve">
+    <value>HGC</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="clbGC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 30</value>
+  </data>
+  <data name="clbGC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 60</value>
+  </data>
+  <data name="clbGC.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;clbGC.Name" xml:space="preserve">
+    <value>clbGC</value>
+  </data>
+  <data name="&gt;&gt;clbGC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;clbGC.Parent" xml:space="preserve">
+    <value>boxGainControl</value>
+  </data>
+  <data name="&gt;&gt;clbGC.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="boxGainControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>45, 40</value>
+  </data>
+  <data name="boxGainControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 107</value>
+  </data>
+  <data name="boxGainControl.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="boxGainControl.Text" xml:space="preserve">
+    <value>Gain Control</value>
+  </data>
+  <data name="&gt;&gt;boxGainControl.Name" xml:space="preserve">
+    <value>boxGainControl</value>
+  </data>
+  <data name="&gt;&gt;boxGainControl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;boxGainControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;boxGainControl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>10, 25</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>800, 450</value>
+    <value>800, 831</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>StarshootG Settings Dialog</value>

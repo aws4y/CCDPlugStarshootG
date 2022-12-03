@@ -43,13 +43,7 @@ float pixelYSize = 0.0;
 unsigned char* byBuff;
 
 int GetGain();
-BOOL camGain;
-INT_PTR CALLBACK DialogProc(
-	HWND hwndDlg,            // contains the handle of the dialog box
-	UINT uMsg,               // contains message from a control
-	WPARAM wParam,           // message data 
-	LPARAM lParam            // message data
-);
+
 //////////////////////////////////////////////////////////////////////
 // Non-class DLL entry points
 //////////////////////////////////////////////////////////////////////
@@ -92,6 +86,8 @@ CCDStarshootG::CCDStarshootG()
 	FilterDelayOn = false;
 	OffX = 0.;
 	OffY = 0.;
+	BlackLevel = 0;
+	Pixel = 0;
 }
 
 CCDStarshootG::~CCDStarshootG()
@@ -153,18 +149,23 @@ void CCDStarshootG::GetParameters(
 	//strcpy(Contents.FilterName, "None");
 	strcpy(Contents.Copyright, "Starshoot G Driver\nCopyright (c) 2022 Ron Smith\nSupport: spinlock663@gmail.com");
 	strcpy(Contents.Parameters[0].ParameterName, "Gain Dialog");
+	strcpy(Contents.Parameters[1].ParameterName, "Settings Dialog");
 	//	ASSERT ( strlen ( Contents.FilterName ) < 15 );
 	//	ASSERT ( strlen ( Contents.CameraName ) < 15 );
 	//	ASSERT ( strlen ( Contents.Copyright ) < 255 );
 
 		// Set up dialog box initialization
 	Contents.UseFilePath = false;
-	Contents.NumParameters = 1;
+	Contents.NumParameters = 2;
 	Contents.Parameters[0].NumOptions = 2;
 	strcpy(Contents.Parameters[0].Option[0].Display, "On");
 	strcpy(Contents.Parameters[0].Option[1].Display, "Off");;
 	Contents.Parameters[0].Option[0].Value = true;
 	Contents.Parameters[0].Option[1].Value = false;
+	strcpy(Contents.Parameters[1].Option[0].Display, "On");
+	strcpy(Contents.Parameters[1].Option[1].Display, "Off");;
+	Contents.Parameters[1].Option[0].Value = true;
+	Contents.Parameters[1].Option[1].Value = false;
 
 	
 }
@@ -215,14 +216,7 @@ int CCDStarshootG::OpenCamera(
 
 	hr = Starshootg_put_eSize(m_hcam, 0);
 	hr = Starshootg_put_HZ(m_hcam, 2);
-	hr = Starshootg_put_Speed(m_hcam, 7);
-	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RAW, 1);
-	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
-	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, 1);
-	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, 1);
-	hr = Starshootg_put_Mode(m_hcam, 1);
-	hr = Starshootg_put_LevelRange(m_hcam, new unsigned short[4], new unsigned short[4] {255, 255, 255, 255});
-	hr = Starshootg_StartPullModeWithCallback(m_hcam, NULL, NULL);
+	
 	// Allocate image buffer used during download
 	// 
 	// Important:  if this function fails, you must deallocate this memory (and any other allocated variables)
@@ -235,18 +229,32 @@ int CCDStarshootG::OpenCamera(
 	{
 		return RS_OutOfMemory;
 	}
-
+	if (Param[1])
+	{
+		char fileName[100];
+		char* args = new char[1];
+		strcpy(fileName, getenv("USERPROFILE"));
+		strcat(fileName, "\\bin\\StarshootG\\SettingsSSG.exe");
+		_spawnl(P_WAIT, fileName, args, NULL);
+	}
 	
 	
 	if (Param[0])
 	{	
 		char fileName[100];
 		char* args = new char[1];
-		int min, max, gain, flag;
 		strcpy(fileName, getenv("USERPROFILE"));
 		strcat(fileName, "\\bin\\StarshootG\\GainControlSSG.exe");
 		_spawnl(P_NOWAIT, fileName,args,NULL);
 	}
+	hr = Starshootg_put_Speed(m_hcam, 7);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RAW, 1);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, 1);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, 1);
+	hr = Starshootg_put_Mode(m_hcam, 1);
+	hr = Starshootg_put_LevelRange(m_hcam, new unsigned short[4], new unsigned short[4] {255, 255, 255, 255});
+	hr = Starshootg_StartPullModeWithCallback(m_hcam, NULL, NULL);
 	BinningX = 1;
 	BinningY = 1;
 	StopTime = 0;
