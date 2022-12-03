@@ -595,7 +595,7 @@ void CCDStarshootG::GetCameraState(
 			Reading = true;
 			State = CCD_READING;
 			HRESULT hr=Starshootg_Trigger(m_hcam, 0);
-			//hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_FLUSH, 3);
+		
 		    hr = Starshootg_PullImageV2(m_hcam, byBuff,8, NULL);
 			StopTime += CLOCKS_PER_SEC * 2;
 			return;
