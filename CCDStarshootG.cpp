@@ -33,6 +33,17 @@
 #include "starshootg.h"
 #include "resource.h"
 
+typedef struct Settings {
+	int GC;
+	int Speed;
+	int LowNoise;
+	int Skip;
+	int BlackLevel;
+	int DFC;
+};
+
+
+
 HStarshootg			m_hcam;
  int nWidth=0;									// Physical nWidth of CCD, not including overscan
  int nHeight=0;									// nHeight of array
@@ -43,7 +54,7 @@ float pixelYSize = 0.0;
 unsigned char* byBuff;
 
 int GetGain();
-
+void GetSetting(Settings* newSettings);
 //////////////////////////////////////////////////////////////////////
 // Non-class DLL entry points
 //////////////////////////////////////////////////////////////////////
@@ -183,6 +194,8 @@ int CCDStarshootG::OpenCamera(
 	int         nSkip;
 	int			nBlackLevel;
 	int			nheatmax;
+	Settings setting;
+
 	// If we are re-initializing, make sure old storage deleted
 	if (m_hcam != NULL)
 	{
@@ -207,7 +220,7 @@ int CCDStarshootG::OpenCamera(
 	hr = Starshootg_get_Option(m_hcam, STARSHOOTG_OPTION_BLACKLEVEL, &nBlackLevel);
 	if (hr != 0x80004001)
 	{
-		BlackLevel = nBlackLevel + 1;
+		BlackLevel = nBlackLevel ;
 	}
 	else
 	{
@@ -232,7 +245,7 @@ int CCDStarshootG::OpenCamera(
 	if (Param[1])
 	{
 		char fileName[100];
-		char* args = new char[1];
+		char* args = new char[1] {NULL};
 		strcpy(fileName, getenv("USERPROFILE"));
 		strcat(fileName, "\\bin\\StarshootG\\SettingsSSG.exe");
 		_spawnl(P_WAIT, fileName, args, NULL);
@@ -242,17 +255,24 @@ int CCDStarshootG::OpenCamera(
 	if (Param[0])
 	{	
 		char fileName[100];
-		char* args = new char[1];
+		char* args = new char[1] {NULL};
 		strcpy(fileName, getenv("USERPROFILE"));
 		strcat(fileName, "\\bin\\StarshootG\\GainControlSSG.exe");
 		_spawnl(P_NOWAIT, fileName,args,NULL);
 	}
-	hr = Starshootg_put_Speed(m_hcam, 7);
+	GetSetting(&setting);
+	hr = Starshootg_put_Speed(m_hcam, setting.Speed);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RAW, 1);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
-	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, 1);
-	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, 1);
-	hr = Starshootg_put_Mode(m_hcam, 1);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, setting.LowNoise);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, setting.GC);
+	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_DFC, setting.DFC);
+	if (BlackLevel != setting.BlackLevel)
+	{
+		BlackLevel = setting.BlackLevel;
+	}
+
+	hr = Starshootg_put_Mode(m_hcam, setting.Skip);
 	hr = Starshootg_put_LevelRange(m_hcam, new unsigned short[4], new unsigned short[4] {255, 255, 255, 255});
 	hr = Starshootg_StartPullModeWithCallback(m_hcam, NULL, NULL);
 	BinningX = 1;
@@ -710,4 +730,17 @@ int GetGain()
 	flag=fscanf(inFile, "{\"max_gain\":%i,\"min_gain\":%i,\"gain\":%i}", &max, &min, &gain);
 	return gain; 
 
+}
+
+void GetSetting(Settings* newSettings)
+{
+	FILE* inFile;
+	char fileName[100];
+	int min, max, gain, flag;
+	strcpy(fileName, getenv("USERPROFILE"));
+	strcat(fileName, "\\bin\\StarshootG\\Settings.json");
+	inFile = fopen(fileName, "r");
+	flag = fscanf(inFile, "{ \"gc\":%i, \"speed\" : %i, \"low_noise\" : %i, \"skip\" : %i, \"blacklevel\" : %i, \"dfc\" : %i }",
+		newSettings->GC, newSettings->Speed, newSettings->LowNoise, newSettings->Skip, newSettings->BlackLevel, newSettings->DFC);
+	return;
 }

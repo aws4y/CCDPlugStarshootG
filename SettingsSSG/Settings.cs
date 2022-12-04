@@ -11,22 +11,22 @@ namespace SettingsSSG
     internal class Settings
     {
         [JsonProperty("gc")]
-        int GC { get; set; }
+        public int GC { get; set; }
 
         [JsonProperty("speed")]
-        int Speed { get; set; }
+        public int Speed { get; set; }
 
         [JsonProperty ("low_noise")]
-        int LowNoise { get; set; }
+        public int LowNoise { get; set; }
 
         [JsonProperty ("skip")]
-        int Skip { get; set; }
+        public int Skip { get; set; }
 
         [JsonProperty ("blacklevel")]
-        int BlackLevel { get; set; }
+        public int BlackLevel { get; set; }
 
         [JsonProperty("dfc")]
-        int DFC { get; set; }
+        public int DFC { get; set; }
 
         public Settings(int gC, int speed, int lowNoise, int skip, int blackLevel, int dFC)
         {
@@ -54,14 +54,23 @@ namespace SettingsSSG
                     uSettings = null; 
                 }
 
-                if(uSettings != null)
+                if (uSettings != null)
                 {
                     this.GC = uSettings.GC;
                     this.Skip = uSettings.Skip;
-                    this.BlackLevel= uSettings.BlackLevel;
+                    this.BlackLevel = uSettings.BlackLevel;
                     this.DFC = uSettings.DFC;
-                    this.LowNoise= uSettings.LowNoise;
-                    this.Speed= uSettings.Speed;
+                    this.LowNoise = uSettings.LowNoise;
+                    this.Speed = uSettings.Speed;
+                }
+                else
+                {
+                    GC = 0;
+                    Skip= 0;    
+                    BlackLevel= 0;
+                    DFC = 0;
+                    LowNoise= 0;
+                    Speed = 9;
                 }
             }
         }
