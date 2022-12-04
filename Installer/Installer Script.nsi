@@ -122,7 +122,7 @@ WriteRegStr HKCU "Environment" "PATH" "$0;$Profile\bin\StarshootG;"
 found:
 
 
-WriteUninstaller "$PROFILE\bin\StarshootG\UinstallCCDPlugStarshootG.exe"
+WriteUninstaller "$PROFILE\bin\UinstallCCDPlugStarshootG.exe"
 SectionEnd
 
 
@@ -137,7 +137,7 @@ DELETE $Profile\bin\StarshootG\Newtonsoft.Json.dll
 DELETE $Profile\bin\StarshootG\Default.json
 DELETE $Profile\bin\StarshootG\Gain.json
 DELETE $Profile\bin\StarshootG\GainControlSSG.runtimeconfig.json
-DELETE $PROFILE\bin\StarshootG\UinstallCCDPlugStarshootG.exe
+DELETE $PROFILE\bin\UinstallCCDPlugStarshootG.exe
 
 RMDir "$Profile\bin\StarshootG"
 ReadRegStr $0 HKCU "Environment" "PATH"
