@@ -112,6 +112,9 @@ FILE Newtonsoft.Json.dll
 FILE Default.json
 FILE GainControlSSG.runtimeconfig.json
 FILE Gain.json
+FILE SettingsSSG.dll
+FILE SettingsSSG.exe
+FILE SettingsSSG.runtimeconfig.json
 
 ReadRegStr $0 HKCU "Environment" "PATH"
 

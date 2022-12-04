@@ -54,7 +54,7 @@ float pixelYSize = 0.0;
 unsigned char* byBuff;
 
 int GetGain();
-void GetSetting(Settings* newSettings);
+Settings GetSetting();
 //////////////////////////////////////////////////////////////////////
 // Non-class DLL entry points
 //////////////////////////////////////////////////////////////////////
@@ -169,6 +169,7 @@ void CCDStarshootG::GetParameters(
 	Contents.UseFilePath = false;
 	Contents.NumParameters = 2;
 	Contents.Parameters[0].NumOptions = 2;
+	Contents.Parameters[1].NumOptions = 2;
 	strcpy(Contents.Parameters[0].Option[0].Display, "On");
 	strcpy(Contents.Parameters[0].Option[1].Display, "Off");;
 	Contents.Parameters[0].Option[0].Value = true;
@@ -245,7 +246,7 @@ int CCDStarshootG::OpenCamera(
 	if (Param[1])
 	{
 		char fileName[100];
-		char* args = new char[1] {NULL};
+		char* args = new char[1];
 		strcpy(fileName, getenv("USERPROFILE"));
 		strcat(fileName, "\\bin\\StarshootG\\SettingsSSG.exe");
 		_spawnl(P_WAIT, fileName, args, NULL);
@@ -255,12 +256,12 @@ int CCDStarshootG::OpenCamera(
 	if (Param[0])
 	{	
 		char fileName[100];
-		char* args = new char[1] {NULL};
+		char* args = new char[1];
 		strcpy(fileName, getenv("USERPROFILE"));
 		strcat(fileName, "\\bin\\StarshootG\\GainControlSSG.exe");
 		_spawnl(P_NOWAIT, fileName,args,NULL);
 	}
-	GetSetting(&setting);
+	setting=GetSetting();
 	hr = Starshootg_put_Speed(m_hcam, setting.Speed);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_RAW, 1);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_BITDEPTH, 1);
@@ -732,15 +733,16 @@ int GetGain()
 
 }
 
-void GetSetting(Settings* newSettings)
+Settings GetSetting()
 {
 	FILE* inFile;
 	char fileName[100];
 	int min, max, gain, flag;
+	Settings newSettings;
 	strcpy(fileName, getenv("USERPROFILE"));
 	strcat(fileName, "\\bin\\StarshootG\\Settings.json");
 	inFile = fopen(fileName, "r");
 	flag = fscanf(inFile, "{ \"gc\":%i, \"speed\" : %i, \"low_noise\" : %i, \"skip\" : %i, \"blacklevel\" : %i, \"dfc\" : %i }",
-		newSettings->GC, newSettings->Speed, newSettings->LowNoise, newSettings->Skip, newSettings->BlackLevel, newSettings->DFC);
-	return;
+		&newSettings.GC, &newSettings.Speed, &newSettings.LowNoise, &newSettings.Skip, &newSettings.BlackLevel, &newSettings.DFC);
+	return newSettings;
 }

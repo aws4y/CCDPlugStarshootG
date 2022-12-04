@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Installer/CCDPlugStarshootG.exe
+*.exe
+*.dll
+/Installer/CCDPlugStarshootG.dll

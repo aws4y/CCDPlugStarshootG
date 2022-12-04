@@ -45,7 +45,7 @@ namespace SettingsSSG
         private void numSpeed_ValueChanged(object sender, EventArgs e)
         {
             tbSpeed.Value=(int)numSpeed.Value;
-            settings.BlackLevel = tbSpeed.Value;
+            settings.Speed = tbSpeed.Value;
         }
 
         private void SettingsDialogSSG_Load(object sender, EventArgs e)
