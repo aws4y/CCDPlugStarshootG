@@ -16,5 +16,10 @@ namespace SettingsSSG
             }
 
         }
+
+        private void grpBOptions_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

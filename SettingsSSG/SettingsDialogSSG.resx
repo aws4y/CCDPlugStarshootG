@@ -75,7 +75,7 @@
     <value>6, 30</value>
   </data>
   <data name="clbGC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 60</value>
+    <value>119, 56</value>
   </data>
   <data name="clbGC.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -114,6 +114,249 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;boxGainControl.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="cbSkip.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbSkip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 133</value>
+  </data>
+  <data name="cbSkip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 29</value>
+  </data>
+  <data name="cbSkip.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="cbSkip.Text" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="&gt;&gt;cbSkip.Name" xml:space="preserve">
+    <value>cbSkip</value>
+  </data>
+  <data name="&gt;&gt;cbSkip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbSkip.Parent" xml:space="preserve">
+    <value>grpBOptions</value>
+  </data>
+  <data name="&gt;&gt;cbSkip.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cbDFC.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbDFC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 98</value>
+  </data>
+  <data name="cbDFC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 29</value>
+  </data>
+  <data name="cbDFC.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="cbDFC.Text" xml:space="preserve">
+    <value>Dark Field Correction</value>
+  </data>
+  <data name="&gt;&gt;cbDFC.Name" xml:space="preserve">
+    <value>cbDFC</value>
+  </data>
+  <data name="&gt;&gt;cbDFC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbDFC.Parent" xml:space="preserve">
+    <value>grpBOptions</value>
+  </data>
+  <data name="&gt;&gt;cbDFC.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="cbLowNoise.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbLowNoise.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 63</value>
+  </data>
+  <data name="cbLowNoise.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 29</value>
+  </data>
+  <data name="cbLowNoise.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="cbLowNoise.Text" xml:space="preserve">
+    <value>Low Noise</value>
+  </data>
+  <data name="&gt;&gt;cbLowNoise.Name" xml:space="preserve">
+    <value>cbLowNoise</value>
+  </data>
+  <data name="&gt;&gt;cbLowNoise.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbLowNoise.Parent" xml:space="preserve">
+    <value>grpBOptions</value>
+  </data>
+  <data name="&gt;&gt;cbLowNoise.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpBOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 40</value>
+  </data>
+  <data name="grpBOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>236, 203</value>
+  </data>
+  <data name="grpBOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="grpBOptions.Text" xml:space="preserve">
+    <value>Flags</value>
+  </data>
+  <data name="&gt;&gt;grpBOptions.Name" xml:space="preserve">
+    <value>grpBOptions</value>
+  </data>
+  <data name="&gt;&gt;grpBOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpBOptions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpBOptions.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tbSpeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>51, 265</value>
+  </data>
+  <data name="tbSpeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>404, 69</value>
+  </data>
+  <data name="tbSpeed.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;tbSpeed.Name" xml:space="preserve">
+    <value>tbSpeed</value>
+  </data>
+  <data name="&gt;&gt;tbSpeed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbSpeed.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tbSpeed.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblSpeed.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblSpeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>51, 237</value>
+  </data>
+  <data name="lblSpeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 25</value>
+  </data>
+  <data name="lblSpeed.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblSpeed.Text" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="&gt;&gt;lblSpeed.Name" xml:space="preserve">
+    <value>lblSpeed</value>
+  </data>
+  <data name="&gt;&gt;lblSpeed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSpeed.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblSpeed.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="numSpeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>461, 265</value>
+  </data>
+  <data name="numSpeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 31</value>
+  </data>
+  <data name="numSpeed.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;numSpeed.Name" xml:space="preserve">
+    <value>numSpeed</value>
+  </data>
+  <data name="&gt;&gt;numSpeed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numSpeed.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;numSpeed.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblBlackLevel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblBlackLevel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>51, 328</value>
+  </data>
+  <data name="lblBlackLevel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 25</value>
+  </data>
+  <data name="lblBlackLevel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblBlackLevel.Text" xml:space="preserve">
+    <value>Black Level</value>
+  </data>
+  <data name="&gt;&gt;lblBlackLevel.Name" xml:space="preserve">
+    <value>lblBlackLevel</value>
+  </data>
+  <data name="&gt;&gt;lblBlackLevel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblBlackLevel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblBlackLevel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="trackBar1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>51, 356</value>
+  </data>
+  <data name="trackBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>399, 69</value>
+  </data>
+  <data name="trackBar1.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;trackBar1.Name" xml:space="preserve">
+    <value>trackBar1</value>
+  </data>
+  <data name="&gt;&gt;trackBar1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;trackBar1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;trackBar1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="numBlackLevel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>461, 356</value>
+  </data>
+  <data name="numBlackLevel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 31</value>
+  </data>
+  <data name="numBlackLevel.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;numBlackLevel.Name" xml:space="preserve">
+    <value>numBlackLevel</value>
+  </data>
+  <data name="&gt;&gt;numBlackLevel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numBlackLevel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;numBlackLevel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -123,7 +366,7 @@
     <value>10, 25</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>800, 831</value>
+    <value>592, 491</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>StarshootG Settings Dialog</value>
