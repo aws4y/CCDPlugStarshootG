@@ -28,7 +28,10 @@ namespace SettingsSSG
         [JsonProperty("dfc")]
         public int DFC { get; set; }
 
-        public Settings(int gC, int speed, int lowNoise, int skip, int blackLevel, int dFC)
+        [JsonProperty("heat")]
+        public int Heat { get; set; }
+
+        public Settings(int gC, int speed, int lowNoise, int skip, int blackLevel, int dFC, int heat)
         {
             GC = gC;
             Speed = speed;
@@ -36,6 +39,7 @@ namespace SettingsSSG
             Skip = skip;
             BlackLevel = blackLevel;
             DFC = dFC;
+            Heat = heat;
         }
         public Settings() { }
 
@@ -62,6 +66,7 @@ namespace SettingsSSG
                     this.DFC = uSettings.DFC;
                     this.LowNoise = uSettings.LowNoise;
                     this.Speed = uSettings.Speed;
+                    this.Heat= uSettings.Heat;
                 }
                 else
                 {
@@ -71,6 +76,7 @@ namespace SettingsSSG
                     DFC = 0;
                     LowNoise= 0;
                     Speed = 9;
+                    Heat= 0;
                 }
             }
         }

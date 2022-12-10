@@ -21,6 +21,8 @@ namespace SettingsSSG
             cbLowNoise.Checked = settings.LowNoise >= 1 ? true : false ; 
             cbSkip.Checked= settings.Skip >= 1 ? true : false ;
             clbGC.SetItemChecked(settings.GC, true);
+            tbHeat.Value = settings.Heat;
+            numHeat.Value = settings.Heat;
 
         }
 
@@ -97,6 +99,18 @@ namespace SettingsSSG
         private void cbSkip_CheckedChanged(object sender, EventArgs e)
         {
             settings.Skip  =    cbSkip.Checked? 1: 0;
+        }
+
+        private void tbHeat_Scroll(object sender, EventArgs e)
+        {
+            numHeat.Value=tbHeat.Value;
+            settings.Heat=tbHeat.Value;
+        }
+
+        private void numHeat_ValueChanged(object sender, EventArgs e)
+        {
+            tbHeat.Value=(int)numHeat.Value;
+            settings.Heat=(int)numHeat.Value;
         }
     }
 }

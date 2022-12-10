@@ -108,7 +108,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;boxGainControl.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>12</value>
   </data>
   <data name="cbSkip.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -213,7 +213,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;grpBOptions.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>11</value>
   </data>
   <data name="tbSpeed.Location" type="System.Drawing.Point, System.Drawing">
     <value>51, 265</value>
@@ -234,7 +234,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tbSpeed.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>10</value>
   </data>
   <data name="lblSpeed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -261,7 +261,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblSpeed.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>9</value>
   </data>
   <data name="numSpeed.Location" type="System.Drawing.Point, System.Drawing">
     <value>461, 265</value>
@@ -282,7 +282,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numSpeed.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="lblBlackLevel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -309,7 +309,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblBlackLevel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="tbBlackLevel.Location" type="System.Drawing.Point, System.Drawing">
     <value>51, 356</value>
@@ -330,7 +330,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tbBlackLevel.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="numBlackLevel.Location" type="System.Drawing.Point, System.Drawing">
     <value>461, 356</value>
@@ -351,10 +351,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numBlackLevel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>356, 445</value>
+    <value>344, 535</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 34</value>
@@ -375,10 +375,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>474, 445</value>
+    <value>462, 535</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 34</value>
@@ -399,6 +399,75 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tbHeat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>51, 431</value>
+  </data>
+  <data name="tbHeat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>399, 69</value>
+  </data>
+  <data name="tbHeat.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;tbHeat.Name" xml:space="preserve">
+    <value>tbHeat</value>
+  </data>
+  <data name="&gt;&gt;tbHeat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbHeat.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tbHeat.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblHeat.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblHeat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>54, 400</value>
+  </data>
+  <data name="lblHeat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 25</value>
+  </data>
+  <data name="lblHeat.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="lblHeat.Text" xml:space="preserve">
+    <value>Heat</value>
+  </data>
+  <data name="&gt;&gt;lblHeat.Name" xml:space="preserve">
+    <value>lblHeat</value>
+  </data>
+  <data name="&gt;&gt;lblHeat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblHeat.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblHeat.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="numHeat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>456, 431</value>
+  </data>
+  <data name="numHeat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 31</value>
+  </data>
+  <data name="numHeat.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;numHeat.Name" xml:space="preserve">
+    <value>numHeat</value>
+  </data>
+  <data name="&gt;&gt;numHeat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numHeat.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;numHeat.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -408,7 +477,7 @@
     <value>10, 25</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>592, 491</value>
+    <value>592, 581</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>StarshootG Settings Dialog</value>

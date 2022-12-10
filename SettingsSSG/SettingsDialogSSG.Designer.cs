@@ -43,12 +43,17 @@
             this.numBlackLevel = new System.Windows.Forms.NumericUpDown();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.tbHeat = new System.Windows.Forms.TrackBar();
+            this.lblHeat = new System.Windows.Forms.Label();
+            this.numHeat = new System.Windows.Forms.NumericUpDown();
             this.boxGainControl.SuspendLayout();
             this.grpBOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbBlackLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numBlackLevel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbHeat)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHeat)).BeginInit();
             this.SuspendLayout();
             // 
             // clbGC
@@ -162,10 +167,36 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // tbHeat
+            // 
+            resources.ApplyResources(this.tbHeat, "tbHeat");
+            this.tbHeat.Maximum = 4;
+            this.tbHeat.Name = "tbHeat";
+            this.tbHeat.Scroll += new System.EventHandler(this.tbHeat_Scroll);
+            // 
+            // lblHeat
+            // 
+            resources.ApplyResources(this.lblHeat, "lblHeat");
+            this.lblHeat.Name = "lblHeat";
+            // 
+            // numHeat
+            // 
+            resources.ApplyResources(this.numHeat, "numHeat");
+            this.numHeat.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.numHeat.Name = "numHeat";
+            this.numHeat.ValueChanged += new System.EventHandler(this.numHeat_ValueChanged);
+            // 
             // SettingsDialogSSG
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.numHeat);
+            this.Controls.Add(this.lblHeat);
+            this.Controls.Add(this.tbHeat);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.numBlackLevel);
@@ -185,6 +216,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbBlackLevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numBlackLevel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbHeat)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHeat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,5 +239,8 @@
         private CheckedListBox clbGC;
         private Button btnOK;
         private Button btnCancel;
+        private TrackBar tbHeat;
+        private Label lblHeat;
+        private NumericUpDown numHeat;
     }
 }

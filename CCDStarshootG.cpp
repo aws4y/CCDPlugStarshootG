@@ -40,6 +40,7 @@ typedef struct Settings {
 	int Skip;
 	int BlackLevel;
 	int DFC;
+	int Heat;
 };
 
 
@@ -194,7 +195,7 @@ int CCDStarshootG::OpenCamera(
 	int			nSpeed;
 	int         nSkip;
 	int			nBlackLevel;
-	int			nheatmax;
+	int			nHeatmax;
 	Settings setting;
 
 	// If we are re-initializing, make sure old storage deleted
@@ -227,6 +228,8 @@ int CCDStarshootG::OpenCamera(
 	{
 		BlackLevel = 0;
 	}
+	hr = Starshootg_get_Option(m_hcam, STARSHOOTG_OPTION_HEAT_MAX, &nHeatmax);
+
 
 	hr = Starshootg_put_eSize(m_hcam, 0);
 	hr = Starshootg_put_HZ(m_hcam, 2);
@@ -268,6 +271,15 @@ int CCDStarshootG::OpenCamera(
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_LOW_NOISE, setting.LowNoise);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_CG, setting.GC);
 	hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_DFC, setting.DFC);
+	if (setting.Heat < nHeatmax)
+	{
+		hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_HEAT, setting.Heat);
+	}
+	else
+	{
+		hr = Starshootg_put_Option(m_hcam, STARSHOOTG_OPTION_HEAT, nHeatmax);
+	}
+
 	if (BlackLevel != setting.BlackLevel)
 	{
 		BlackLevel = setting.BlackLevel;
@@ -742,7 +754,7 @@ Settings GetSetting()
 	strcpy(fileName, getenv("USERPROFILE"));
 	strcat(fileName, "\\bin\\StarshootG\\Settings.json");
 	inFile = fopen(fileName, "r");
-	flag = fscanf(inFile, "{ \"gc\":%i, \"speed\" : %i, \"low_noise\" : %i, \"skip\" : %i, \"blacklevel\" : %i, \"dfc\" : %i }",
-		&newSettings.GC, &newSettings.Speed, &newSettings.LowNoise, &newSettings.Skip, &newSettings.BlackLevel, &newSettings.DFC);
+	flag = fscanf(inFile, "{ \"gc\":%i, \"speed\" : %i, \"low_noise\" : %i, \"skip\" : %i, \"blacklevel\" : %i, \"dfc\" : %i ,\"heat\":%i}",
+		&newSettings.GC, &newSettings.Speed, &newSettings.LowNoise, &newSettings.Skip, &newSettings.BlackLevel, &newSettings.DFC, &newSettings.Heat);
 	return newSettings;
 }
