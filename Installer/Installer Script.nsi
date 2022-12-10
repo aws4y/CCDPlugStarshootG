@@ -115,6 +115,7 @@ FILE Gain.json
 FILE SettingsSSG.dll
 FILE SettingsSSG.exe
 FILE SettingsSSG.runtimeconfig.json
+FILE Settings.json
 
 ReadRegStr $0 HKCU "Environment" "PATH"
 
@@ -140,6 +141,7 @@ DELETE $Profile\bin\StarshootG\Newtonsoft.Json.dll
 DELETE $Profile\bin\StarshootG\Default.json
 DELETE $Profile\bin\StarshootG\Gain.json
 DELETE $Profile\bin\StarshootG\GainControlSSG.runtimeconfig.json
+DELETE $Profile\bin\StarshootG\Settings.json
 DELETE $PROFILE\bin\UinstallCCDPlugStarshootG.exe
 
 RMDir "$Profile\bin\StarshootG"
