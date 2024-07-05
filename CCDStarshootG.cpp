@@ -731,7 +731,24 @@ IMPBOOL CCDStarshootG::IsFilterWheelMoving()
 	// We'll just return false; MaxIm CCD will very briefly show Moving
 	return false;
 }
-
+#ifdef _WIN64
+void CCDStarshootG::GetCameraStats(CameraInfo& camInfo)
+{
+	camInfo.DifferentAxes=false;
+	camInfo.MaxBinFactorX = 8;
+	camInfo.MaxBinFactorY = 8;
+	camInfo.DualChip = false;
+	camInfo.XSize = nWidth;
+	camInfo.YSize = nHeight;
+	camInfo.HasCoolerControl = true;
+	camInfo.LoadTwoCopies = false;
+	camInfo.HasShutter = false;
+	camInfo.HasGuiderRelays = false;
+	camInfo.HighResMode = true;
+	camInfo.PowerOfTwoBinning = false;
+	camInfo.Revision = 1;
+}
+#endif
 int GetGain()
 {
 	FILE* inFile;

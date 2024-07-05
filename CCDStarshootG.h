@@ -36,6 +36,7 @@
 
 #include "MaxImCCDPlugIn.h"
 
+
 class CCDStarshootG : public CMaxImCCDPlugIn
 {
 protected:
@@ -197,7 +198,10 @@ public:
 
 	// Simulate a star image
 	void MakeStar(unsigned short* Buffer, double CenterX, double CenterY, double Size);
-
+#ifdef _WIN64
+	void GetCameraStats(CameraInfo& camInfo);
+#endif
 };
 
 #endif // !defined(AFX_STARSHOOTG_H__F7EE87EB_1A2D_472F_A21F_F4A0A3BD9CD0__INCLUDED_)
+

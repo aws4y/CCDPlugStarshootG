@@ -25,7 +25,7 @@
        (2) hans.html, Simplified Chinese
 */
 
-#if defined(_WIN32)
+#if defined(_WIN32)  
 #ifndef _INC_WINDOWS
 #include <windows.h>
 
