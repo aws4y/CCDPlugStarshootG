@@ -157,11 +157,11 @@ void CCDStarshootG::GetParameters(
 	HasGuiderRelays = false;
 	//HasGainControl = true;
 	// Set up title, options
-	strcpy(Contents.CameraName, "StarShootG");
+	strcpy_s(Contents.CameraName, "StarShootG");
 	//strcpy(Contents.FilterName, "None");
-	strcpy(Contents.Copyright, "Starshoot G Driver\nCopyright (c) 2022 Ron Smith\nSupport: spinlock663@gmail.com");
-	strcpy(Contents.Parameters[0].ParameterName, "Gain Dialog");
-	strcpy(Contents.Parameters[1].ParameterName, "Settings Dialog");
+	strcpy_s(Contents.Copyright, "Starshoot G Driver\nCopyright (c) 2022 Ron Smith\nSupport: spinlock663@gmail.com");
+	strcpy_s(Contents.Parameters[0].ParameterName, "Gain Dialog");
+	strcpy_s(Contents.Parameters[1].ParameterName, "Settings Dialog");
 	//	ASSERT ( strlen ( Contents.FilterName ) < 15 );
 	//	ASSERT ( strlen ( Contents.CameraName ) < 15 );
 	//	ASSERT ( strlen ( Contents.Copyright ) < 255 );
@@ -171,12 +171,12 @@ void CCDStarshootG::GetParameters(
 	Contents.NumParameters = 2;
 	Contents.Parameters[0].NumOptions = 2;
 	Contents.Parameters[1].NumOptions = 2;
-	strcpy(Contents.Parameters[0].Option[0].Display, "On");
-	strcpy(Contents.Parameters[0].Option[1].Display, "Off");;
+	strcpy_s(Contents.Parameters[0].Option[0].Display, "On");
+	strcpy_s(Contents.Parameters[0].Option[1].Display, "Off");;
 	Contents.Parameters[0].Option[0].Value = true;
 	Contents.Parameters[0].Option[1].Value = false;
-	strcpy(Contents.Parameters[1].Option[0].Display, "On");
-	strcpy(Contents.Parameters[1].Option[1].Display, "Off");;
+	strcpy_s(Contents.Parameters[1].Option[0].Display, "On");
+	strcpy_s(Contents.Parameters[1].Option[1].Display, "Off");;
 	Contents.Parameters[1].Option[0].Value = true;
 	Contents.Parameters[1].Option[1].Value = false;
 
@@ -250,8 +250,8 @@ int CCDStarshootG::OpenCamera(
 	{
 		char fileName[100];
 		char* args = new char[1];
-		strcpy(fileName, getenv("USERPROFILE"));
-		strcat(fileName, "\\bin\\StarshootG\\SettingsSSG.exe");
+		strcpy_s(fileName, getenv("USERPROFILE"));
+		strcat_s(fileName, "\\bin\\StarshootG\\SettingsSSG.exe");
 		_spawnl(P_WAIT, fileName, args, NULL);
 	}
 	
@@ -260,8 +260,8 @@ int CCDStarshootG::OpenCamera(
 	{	
 		char fileName[100];
 		char* args = new char[1];
-		strcpy(fileName, getenv("USERPROFILE"));
-		strcat(fileName, "\\bin\\StarshootG\\GainControlSSG.exe");
+		strcpy_s(fileName, getenv("USERPROFILE"));
+		strcat_s(fileName, "\\bin\\StarshootG\\GainControlSSG.exe");
 		_spawnl(P_NOWAIT, fileName,args,NULL);
 	}
 	setting=GetSetting();
@@ -771,7 +771,8 @@ Settings GetSetting()
 	strcpy(fileName, getenv("USERPROFILE"));
 	strcat(fileName, "\\bin\\StarshootG\\Settings.json");
 	inFile = fopen(fileName, "r");
-	flag = fscanf(inFile, "{ \"gc\":%i, \"speed\" : %i, \"low_noise\" : %i, \"skip\" : %i, \"blacklevel\" : %i, \"dfc\" : %i ,\"heat\":%i}",
+	if(inFile != NULL)
+		flag = fscanf(inFile, "{ \"gc\":%i, \"speed\" : %i, \"low_noise\" : %i, \"skip\" : %i, \"blacklevel\" : %i, \"dfc\" : %i ,\"heat\":%i}",
 		&newSettings.GC, &newSettings.Speed, &newSettings.LowNoise, &newSettings.Skip, &newSettings.BlackLevel, &newSettings.DFC, &newSettings.Heat);
 	return newSettings;
 }
